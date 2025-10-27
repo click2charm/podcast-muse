@@ -17,14 +17,24 @@ docker-compose up --build
 
 ### Railway Deployment
 1. Connect this repo to Railway
-2. Railway will auto-deploy based on `railway.toml` config
+2. Railway will auto-deploy based on `nixpacks.toml` config
 3. Set environment variables in Railway dashboard
+
+### Production URLs
+- **Backend API:** Railway (Flask + PostgreSQL)
+- **Frontend:** Choose one of the options below:
+  - Netlify (Recommended - Free & Easy)
+  - GitHub Pages (Free & Static)
+  - Cloudflare Pages (Free & Fast)
+  - Vercel (Alternative)
+
+**Note:** Avoid Vercel for this project as specified in deployment requirements.
 
 ## 📁 Project Structure
 
 ```
 podcast-muse/
-├── backend/           # FastAPI backend
+├── backend/           # Flask backend
 ├── frontend/          # Next.js frontend
 ├── docs/             # Documentation
 ├── docker-compose.yml
