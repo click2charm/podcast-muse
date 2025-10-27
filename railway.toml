@@ -1,32 +1,15 @@
-# Backend Service
-[services.backend]
-source = "backend/"
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "python flask-main.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
 
-[services.backend.build]
-builder = "nixpacks"
-
-[services.backend.variables]
+[variables]
 PORT = "8000"
 ENVIRONMENT = "production"
 DATABASE_URL = "${{postgresql.DATABASE_URL}}"
-SECRET_KEY = "${{secrets.SECRET_KEY}}"
 
-# Frontend Service
-[services.frontend]
-source = "frontend/"
-healthcheckPath = "/"
-healthcheckTimeout = 100
-
-[services.frontend.build]
-builder = "nixpacks"
-
-[services.frontend.variables]
-PORT = "3000"
-NEXT_PUBLIC_API_URL = "${{services.backend.url}}"
-ENVIRONMENT = "production"
-
-# PostgreSQL Database
 [postgresql]
