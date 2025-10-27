@@ -1,15 +1,17 @@
 [build]
 builder = "nixpacks"
 
-[deploy]
+# Backend Service - Python Flask
+[services.backend]
+source = "./"
 startCommand = "python app.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
-restartPolicyType = "on_failure"
 
-[variables]
+[services.backend.variables]
 PORT = "8000"
 ENVIRONMENT = "production"
 DATABASE_URL = "${{postgresql.DATABASE_URL}}"
 
+# PostgreSQL Database
 [postgresql]
