@@ -12,6 +12,7 @@ source = "backend"
 [services.variables]
 PORT = "8000"
 ENVIRONMENT = "production"
+DATABASE_URL = "${{postgresql.DATABASE_URL}}"
 
 [[services]]
 name = "frontend"
@@ -21,7 +22,4 @@ PORT = "3000"
 NEXT_PUBLIC_API_URL = "${{services.backend.url}}"
 ENVIRONMENT = "production"
 
-[[services]]
-name = "database"
-[services]
-plan = "postgres_hobby"
+[postgresql]
