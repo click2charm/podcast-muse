@@ -2,7 +2,7 @@
 nixPkgs = ["python311", "gcc"]
 
 [phases.install]
-cmds = ["pip install --no-cache-dir -r requirements.txt"]
+cmds = ["pip install --no-cache-dir -r flask-requirements.txt"]
 
 [start]
-cmd = "python simple-main.py"
+cmd = "python flask-main.py"
