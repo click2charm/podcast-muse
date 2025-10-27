@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "python flask-main.py"
+startCommand = "python app.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
