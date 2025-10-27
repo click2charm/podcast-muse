@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: podcast_db
+    environment:
+      POSTGRES_DB: podcast_muse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: podcast_redis
+    ports:
+      - "6379:6379"
+
+  # Backend with simple setup
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: podcast_backend
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/podcast_muse
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - ENVIRONMENT=development
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+      echo 'Setting up database...' &&
+      python -c 'from database import engine; from models import *; Base.metadata.create_all(bind=engine)' &&
+      echo 'Database ready!' &&
+      uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+volumes:
+  postgres_data:

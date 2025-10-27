@@ -1,0 +1,30 @@
+services:
+  # Backend (already running)
+  backend:
+    image: podcast-muse-backend
+    container_name: podcast_backend_simple
+    environment:
+      - ENVIRONMENT=development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: python simple-main.py
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-simple
+    container_name: podcast_frontend_simple
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
