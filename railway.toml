@@ -2,33 +2,16 @@
 builder = "nixpacks"
 
 # Backend Service - Python Flask
-[services.backend]
-source = "./"
+[deploy]
 startCommand = "python app.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
 
-[services.backend.variables]
+[variables]
 PORT = "8000"
 ENVIRONMENT = "production"
 DATABASE_URL = "${{postgresql.DATABASE_URL}}"
-
-# Frontend Service - Next.js
-[services.frontend]
-source = "./frontend/"
-[services.frontend.build]
-builder = "nixpacks"
-[services.frontend.deploy]
-startCommand = "npm start"
-healthcheckPath = "/"
-healthcheckTimeout = 100
-restartPolicyType = "on_failure"
-
-[services.frontend.variables]
-PORT = "3000"
-NEXT_PUBLIC_API_URL = "${{services.backend.url}}"
-ENVIRONMENT = "production"
 
 # PostgreSQL Database
 [postgresql]
